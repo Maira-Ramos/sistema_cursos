@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Detalhes do Curso</h2>
+
+<div class="card mt-3">
+    <div class="card-body">
+        <h4>{{ curso.nome }}</h4>
+        <p><strong>Carga horária:</strong> {{ curso.carga_horaria }} horas</p>
+        <p><strong>Descrição:</strong> {{ curso.descricao }}</p>
+
+        <a href="{% url 'editar_curso' curso.id %}" class="btn btn-warning">Editar</a>
+        <a href="{% url 'excluir_curso' curso.id %}" class="btn btn-danger">Excluir</a>
+        <a href="{% url 'listar_cursos' %}" class="btn btn-secondary">Voltar</a>
+    </div>
+</div>
+
+{% endblock %}
