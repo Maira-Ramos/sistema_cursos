@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Seção Hero -->
+<div class="bg-light p-5 rounded-4 shadow-sm mb-5">
+    <div class="container py-4">
+        <h1 class="display-5 fw-bold">Sistema de Gestão de Cursos</h1>
+        <p class="col-md-8 fs-5 mt-3">
+            Bem-vinda ao seu sistema acadêmico!  
+            Aqui você gerencia cursos, alunos, matrículas e muito mais —
+            tudo de forma rápida, organizada e moderna.
+        </p>
+        <a href="/cursos/" class="btn btn-primary btn-lg px-4 mt-3">
+            📚 Ver Cursos
+        </a>
+    </div>
+</div>
+
+<!-- Seção de Recursos -->
+<div class="container">
+    <h2 class="fw-bold mb-4">O que você pode fazer?</h2>
+
+    <div class="row g-4">
+        <!-- Card Cursos -->
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">📘 Gerenciar Cursos</h5>
+                    <p class="card-text">
+                        Cadastre, edite e organize todos os cursos oferecidos pela plataforma.
+                    </p>
+                    <a href="/cursos/" class="btn btn-outline-primary">Acessar</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Alunos -->
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">🧑‍🎓 Gerenciar Alunos</h5>
+                    <p class="card-text">
+                        Controle o cadastro, informações e matrícula dos estudantes.
+                    </p>
+                    <a href="/alunos/" class="btn btn-outline-primary">Acessar</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Usuários -->
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">👤 Usuários do Sistema</h5>
+                    <p class="card-text">
+                        Gerencie quem pode acessar o sistema, perfis e permissões.
+                    </p>
+                    <a href="/usuarios/" class="btn btn-outline-primary">Acessar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
