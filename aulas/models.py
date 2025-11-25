@@ -1,9 +1,9 @@
 
 from django.db import models
-from cursos.models import Modulo
+#from cursos.models import Modulo
 
 class Aula(models.Model):
-    modulo = models.ForeignKey(Modulo, on_delete=models.CASCADE, related_name='aulas')
+    curso = models.ForeignKey('cursos.Curso', on_delete=models.CASCADE, related_name='aulas')
     titulo = models.CharField(max_length=200)
     conteudo = models.TextField()
     link_video = models.URLField(blank=True, null=True)
