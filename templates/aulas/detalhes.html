@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ aula.titulo }}</h1>
+
+<p><strong>Módulo:</strong> {{ aula.curso.nome }}</p>
+
+<p><strong>Conteúdo:</strong></p>
+<p>{{ aula.conteudo }}</p>
+
+{% if aula.link_video %}
+<hr>
+<a class="btn btn-primary" href="{{ aula.link_video }}" target="_blank">Assistir Vídeo</a>
+{% endif %}
+
+<hr>
+
+<a href="{% url 'aulas:editar' aula.id %}" class="btn btn-warning">Editar</a>
+<a href="{% url 'aulas:excluir' aula.id %}" class="btn btn-danger">Excluir</a>
+
+{% endblock %}
