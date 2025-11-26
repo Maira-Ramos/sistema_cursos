@@ -6,6 +6,10 @@ def listar_modulos(request):
     modulos = Modulo.objects.select_related("curso").all()
     return render(request, "modulos/lista_modulos.html", {"modulos": modulos})
 
+def detalhe_modulo(request, id):
+    modulo = get_object_or_404(Modulo, id=id)
+    return render(request, "modulos/detalhe_modulo.html", {"modulo": modulo})
+
 def criar_modulo(request):
     form = ModuloForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
@@ -23,5 +27,10 @@ def editar_modulo(request, id):
 
 def excluir_modulo(request, id):
     modulo = get_object_or_404(Modulo, id=id)
-    modulo.delete()
-    return redirect("listar_modulos")
+
+    if request.method == "POST":
+        modulo.delete()
+        return redirect("listar_modulos")
+
+    # página de confirmação
+    return render(request, "modulos/confirmar_exclusao.html", {"modulo": modulo})
