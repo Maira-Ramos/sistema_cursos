@@ -7,7 +7,7 @@ from cursos.models import Curso  # ajustar se o nome for outro
 # 1) Listagem
 def listar_alunos(request):
     alunos = Aluno.objects.all()
-    return render(request, 'alunos/listar.html', {'alunos': alunos})
+    return render(request, 'alunos/lista.html', {'alunos': alunos})
 
 
 # 2) Detalhes
@@ -52,7 +52,7 @@ def excluir_aluno(request, id):
         aluno.delete()  # já remove inscrições por causa do CASCADE
         return redirect('alunos:listar')
 
-    return render(request, 'alunos/confirmar_exclusao.html', {'aluno': aluno})
+    return render(request, 'alunos/excluir.html', {'aluno': aluno})
 
 
 
