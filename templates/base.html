@@ -44,6 +44,16 @@
         .navbar-modern .nav-link:hover {
             color: #c8e4ff !important;
         }
+        
+        /* NOVO ESTILO: Link Ativo */
+        .navbar-modern .nav-link.active {
+            color: #fff !important; 
+            background-color: rgba(255, 255, 255, 0.1); /* Um leve highlight no fundo */
+            border-radius: 5px;
+            font-weight: 600 !important;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
 
         .main-content {
             flex: 1; /* Permite que o conteúdo ocupe o espaço restante */
@@ -80,7 +90,8 @@
 <nav class="navbar navbar-expand-lg navbar-modern sticky-top">
     <div class="container">
 
-        <a class="navbar-brand d-flex flex-column align-items-start" href="/">
+        {# Aprimorado: Adicionando separador vertical do logo #}
+        <a class="navbar-brand d-flex flex-column align-items-start pe-3 pe-lg-4 border-end border-white-50" href="/">
             <span class="fw-bold logo-text" style="letter-spacing: 1px;">
                 SGC
             </span>
@@ -97,11 +108,24 @@
 
         <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
 
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-4">
-                <li class="nav-item"><a class="nav-link" href="/cursos/">Cursos</a></li>
-                <li class="nav-item"><a class="nav-link" href="/alunos/">Alunos</a></li>
-                <li class="nav-item"><a class="nav-link" href="/usuarios/">Usuários</a></li>
-                <li class="nav-item"><a class="nav-link" href="/modulos/">Módulos</a></li>
+            {# Aprimorado: Links com lógica para link ativo #}
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/cursos/' or request.path == '/cursos' %}active fw-bolder{% endif %}" 
+                       href="/cursos/" aria-current="page">Cursos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/alunos/' or request.path == '/alunos' %}active fw-bolder{% endif %}" 
+                       href="/alunos/">Alunos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/usuarios/' or request.path == '/usuarios' or 'usuario' in request.path %}active fw-bolder{% endif %}" 
+                       href="/usuarios/">Usuários</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/modulos/' or request.path == '/modulos' %}active fw-bolder{% endif %}" 
+                       href="/modulos/">Módulos</a>
+                </li>
             </ul>
 
             <ul class="navbar-nav">
@@ -134,10 +158,20 @@
 </div>
 
 <footer>
-    Sistema de Cursos — Projeto Acadêmico © 2024
+    <div class="container small text-muted">
+        {# Linha principal (Copyright e Projeto) #}
+        <div class="mb-1">
+            Sistema de Cursos — Projeto Acadêmico © 2025
+        </div>
+        
+        {# Linha de Detalhes (Versão e Desenvolvimento) #}
+        <div class="text-secondary">
+            <span class="fw-medium me-3">
+                <span class="text-primary me-1">V.</span>1.0.0
+            </span>
+            <span>
+                Desenvolvido por <span class="fw-bold">Maira Ramos e Samara Mercês</span>
+            </span>
+        </div>
+    </div>
 </footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
-</html>
