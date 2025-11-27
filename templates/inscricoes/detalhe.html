@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2 class="fw-bold">Detalhes</h2>
+
+<p><b>Aluno:</b> {{ inscricao.aluno }}</p>
+<p><b>Curso:</b> {{ inscricao.curso }}</p>
+<p><b>Data:</b> {{ inscricao.data_inscricao }}</p>
+<p><b>Total de cursos inscrito:</b> {{ total }}</p>
+
+<a href="{% url 'inscricoes:listar' %}" class="btn btn-secondary">Voltar</a>
+
+{% endblock %}

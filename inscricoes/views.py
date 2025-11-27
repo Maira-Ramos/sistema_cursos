@@ -37,18 +37,8 @@ def criar_inscricao(request):
     else:
         form = InscricaoForm()
 
-    return render(request, "inscricoes/criar.html", {"form": form})
-
-from django.urls import path
-from . import views
-
-app_name = 'inscricoes'
-
-urlpatterns = [
-    path('criar/', views.criar_inscricao, name='criar'),
-]
-
-# EXCLUIR
+    return render(request, "inscricoes/form.html", {"form": form})
+# EXCLUIE
 def excluir_inscricao(request, id):
     inscricao = get_object_or_404(Inscricao, id=id)
 

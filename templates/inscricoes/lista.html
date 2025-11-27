@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2 class="fw-bold mb-3">📄 Inscrições</h2>
+<a href="{% url 'inscricoes:form' %}" class="btn btn-primary mb-3">+ Nova Inscrição</a>
+
+<table class="table table-striped">
+    <tr>
+        <th>Aluno</th>
+        <th>Curso</th>
+        <th>Data</th>
+        <th>Ações</th>
+    </tr>
+
+    {% for i in inscricoes %}
+    <tr>
+        <td>{{ i.aluno }}</td>
+        <td>{{ i.curso }}</td>
+        <td>{{ i.data_inscricao }}</td>
+        <td>
+            <a href="{% url 'inscricoes:detalhes' i.id %}" class="btn btn-sm btn-info">Detalhes</a>
+            <a href="{% url 'inscricoes:excluir' i.id %}" class="btn btn-sm btn-danger">Excluir</a>
+        </td>
+    </tr>
+    {% empty %}
+        <tr><td colspan="4" class="text-center">Nenhuma inscrição encontrada.</td></tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
