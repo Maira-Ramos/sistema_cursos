@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import Inscricao
 from .forms import InscricaoForm
@@ -27,7 +27,6 @@ def criar_inscricao(request):
         if form.is_valid():
             aluno = form.cleaned_data["aluno"]
             curso = form.cleaned_data["curso"]
-
             if Inscricao.objects.filter(aluno=aluno, curso=curso).exists():
                 messages.error(request, "Este aluno já está inscrito neste curso.")
                 return redirect("inscricoes:criar")
@@ -40,6 +39,14 @@ def criar_inscricao(request):
 
     return render(request, "inscricoes/criar.html", {"form": form})
 
+from django.urls import path
+from . import views
+
+app_name = 'inscricoes'
+
+urlpatterns = [
+    path('criar/', views.criar_inscricao, name='criar'),
+]
 
 # EXCLUIR
 def excluir_inscricao(request, id):
