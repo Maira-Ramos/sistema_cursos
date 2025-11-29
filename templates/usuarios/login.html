@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<h2 class="fw-bold mb-3">Login</h2>
+
+<form method="POST" class="mt-3">
+    {% csrf_token %}
+    <input type="text" name="username" class="form-control" placeholder="Usuário" required><br>
+    <input type="password" name="password" class="form-control" placeholder="Senha" required><br>
+
+    <button class="btn btn-primary">Entrar</button>
+</form>
+
+<p class="mt-3">
+    Não tem conta? <a href="{% url 'usuarios:registro' %}">Clique aqui para registrar</a>.
+</p>
+
+{% endblock %}

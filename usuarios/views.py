@@ -33,7 +33,7 @@ def login_user(request):
                 return redirect("/admin/")
 
             # Usuário comum → home
-            return redirect("home:index")   # ajuste para onde quiser
+            return redirect("home")   # ajuste para onde quiser
 
         messages.error(request, "Usuário ou senha incorretos.")
 
