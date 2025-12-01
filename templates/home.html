@@ -2,95 +2,157 @@
 
 {% block content %}
 
-<div class="main-box p-5 mb-5 text-center d-flex flex-column justify-content-center align-items-center">
-    <div class="col-lg-8 mx-auto">
-        <h1 class="display-5 fw-bolder text-dark mb-3">
-            Sistema de Gestão de Cursos
+<div class="main-box p-5 mb-5 text-center bg-white rounded-3 shadow-sm">
+    <div class="col-lg-10 mx-auto">
+        <h1 class="display-5 fw-bolder text-dark mb-0">
+            Sistema Integrado de Ensino
         </h1>
-        <p class="fs-5 text-secondary mb-4">
-            Bem-vinda ao seu <strong>sistema acadêmico</strong>! Gerencie cursos, alunos, matrículas e usuários —
-            tudo de forma rápida, organizada e com uma interface moderna.
+        <h4 class="text-secondary fw-bolder mb-3">(SIE)</h4>
+        <p class="fs-5 text-muted mb-0">
+            {% if is_professor %}
+                <strong>Olá</strong>, bem-vindo(a) ao seu <strong>painel de gestão</strong>! Utilize as ferramentas abaixo para administrar cursos, alunos e conteúdos.
+            {% elif is_aluno %}
+                <strong>Olá</strong>, bem-vindo(a) ao seu <strong>ambiente de estudos</strong>! Acesse seus conteúdos, acompanhe o progresso e gerencie sua jornada de aprendizado.
+            {% else %}
+                Bem-vindo(a) ao <strong>Sistema Integrado de Ensino</strong>! Faça login para acessar as opções.
+            {% endif %}
         </p>
-        <a href="/cursos/" class="btn btn-primary btn-lg px-4 mt-3 shadow-sm">
-            🎓 Ver Cursos
-        </a>
     </div>
 </div>
 
 <div class="container px-0">
-
-    <h2 class="fw-bold mb-4 border-bottom pb-2">O que você pode fazer?</h2>
-
+    <h2 class="fw-bold mb-4 mt-5 border-bottom pb-2 text-primary">O que você pode fazer?</h2>
     <div class="row g-4">
 
-        <!-- Cursos -->
-        <div class="col-sm-6 col-md-6 col-lg-3">
-            <div class="card shadow-lg border-0 h-100">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title fw-bold text-primary mb-3">📘 Gerenciar Cursos</h5>
+        {% if is_professor %}
+        <!-- Cards para professor -->
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card border-0 shadow-lg h-100 card-hover">
+                <div class="card-body d-flex flex-column align-items-center text-center">
+                    <span class="fs-1 mb-2">🎓</span>
+                    <h5 class="card-title fw-bold text-primary mb-2">Cursos</h5>
                     <p class="card-text text-muted small flex-grow-1">
-                        Cadastre, edite e organize todos os cursos oferecidos pela plataforma.
+                        Cadastre e edite a estrutura completa dos cursos.
                     </p>
-                    <a href="/cursos/" class="btn btn-sm btn-outline-primary mt-3">Acessar →</a>
+                    <a href="/cursos/" class="btn btn-outline-primary btn-sm btn-manage mt-2">Gerenciar →</a>
                 </div>
             </div>
         </div>
 
-        <!-- Alunos -->
-        <div class="col-sm-6 col-md-6 col-lg-3">
-            <div class="card shadow-lg border-0 h-100">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title fw-bold text-primary mb-3">🧑‍🎓 Gerenciar Alunos</h5>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card border-0 shadow-lg h-100 card-hover">
+                <div class="card-body d-flex flex-column align-items-center text-center">
+                    <span class="fs-1 mb-2">🧑‍🎓</span>
+                    <h5 class="card-title fw-bold text-primary mb-2">Alunos</h5>
                     <p class="card-text text-muted small flex-grow-1">
-                        Controle o cadastro, informações e matrícula dos estudantes.
+                        Controle matrículas, informações e acessos dos estudantes.
                     </p>
-                    <a href="/alunos/" class="btn btn-sm btn-outline-primary mt-3">Acessar →</a>
+                    <a href="/alunos/" class="btn btn-outline-primary btn-sm btn-manage mt-2">Gerenciar →</a>
                 </div>
             </div>
         </div>
 
-        <!-- Módulos -->
-        <div class="col-sm-6 col-md-6 col-lg-3">
-            <div class="card shadow-lg border-0 h-100">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title fw-bold text-primary mb-3">📚 Gerenciar Módulos</h5>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card border-0 shadow-lg h-100 card-hover">
+                <div class="card-body d-flex flex-column align-items-center text-center">
+                    <span class="fs-1 mb-2">📚</span>
+                    <h5 class="card-title fw-bold text-primary mb-2">Módulos</h5>
                     <p class="card-text text-muted small flex-grow-1">
-                        Gerencie os módulos, unidades e conteúdos pertencentes aos cursos.
+                        Organize unidades, capítulos e a sequência dos conteúdos.
                     </p>
-                    <a href="/modulos/" class="btn btn-sm btn-outline-primary mt-3">Acessar →</a>
+                    <a href="/modulos/" class="btn btn-outline-primary btn-sm btn-manage mt-2">Gerenciar →</a>
                 </div>
             </div>
         </div>
 
-        <!-- Usuários (apenas administradores) -->
-        {# {% if user.is_authenticated and user.groups.filter(name='Administrador').exists %} #}
-        <div class="col-sm-6 col-md-6 col-lg-3">
-            <div class="card shadow-lg border-0 h-100">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title fw-bold text-primary mb-3">👤 Usuários e Permissões</h5>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card border-0 shadow-lg h-100 card-hover">
+                <div class="card-body d-flex flex-column align-items-center text-center">
+                    <span class="fs-1 mb-2">📽️</span>
+                    <h5 class="card-title fw-bold text-primary mb-2">Vídeo Aulas</h5>
                     <p class="card-text text-muted small flex-grow-1">
-                        Gerencie quem pode acessar o sistema, perfis e permissões.
+                        Cadastre e gerencie o material e os links das aulas.
                     </p>
-                    <a href="/usuarios/" class="btn btn-sm btn-outline-primary mt-3">Acessar →</a>
+                    <a href="/aulas/" class="btn btn-outline-primary btn-sm btn-manage mt-2">Gerenciar →</a>
                 </div>
             </div>
         </div>
-        {# {% endif %} #}        
 
-        <!-- Aulas -->
-        <div class="col-sm-6 col-md-6 col-lg-3">
-            <div class="card shadow-lg border-0 h-100">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title fw-bold text-primary mb-3">📘 Aulas</h5>
+        {% elif is_aluno %}
+        <!-- Cards para aluno -->
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card border-0 shadow-lg h-100 card-hover">
+                <div class="card-body d-flex flex-column align-items-center text-center">
+                    <span class="fs-1 mb-2">🚀</span>
+                    <h5 class="card-title fw-bold text-primary mb-2">Meus Cursos</h5>
                     <p class="card-text text-muted small flex-grow-1">
-                        Gerencie e cadastre aulas vinculadas aos cursos.
+                        Veja seu progresso e acesse todos os cursos matriculados.
                     </p>
-                    <a href="/aulas/" class="btn btn-sm btn-outline-primary mt-3">Acessar →</a>
+                    <a href="/cursos/" class="btn btn-outline-primary btn-sm btn-manage mt-2">Acessar →</a>
                 </div>
             </div>
         </div>
+
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card border-0 shadow-lg h-100 card-hover">
+                <div class="card-body d-flex flex-column align-items-center text-center">
+                    <span class="fs-1 mb-2">🎬</span>
+                    <h5 class="card-title fw-bold text-primary mb-2">Vídeo Aulas</h5>
+                    <p class="card-text text-muted small flex-grow-1">
+                        Assista o material didático e continue de onde parou.
+                    </p>
+                    <a href="/aulas/" class="btn btn-outline-primary btn-sm btn-manage mt-2">Acessar →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card border-0 shadow-lg h-100 card-hover">
+                <div class="card-body d-flex flex-column align-items-center text-center">
+                    <span class="fs-1 mb-2">📚</span>
+                    <h5 class="card-title fw-bold text-primary mb-2">Módulos</h5>
+                    <p class="card-text text-muted small flex-grow-1">
+                        Explore a estrutura detalhada de conteúdos por curso.
+                    </p>
+                    <a href="/modulos/" class="btn btn-outline-primary btn-sm btn-manage mt-2">Acessar →</a>
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+        <div class="col-12 text-center py-5">
+            <p class="lead text-muted">Faça login para visualizar suas opções.</p>
+        </div>
+        {% endif %}
 
     </div>
 </div>
+
+<!-- CSS -->
+<style>
+.card-hover {
+    transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.2);
+}
+
+/* Botão Gerenciar/Acessar */
+.btn-manage {
+    border-radius: 0.5rem;
+    border: 2px solid #0d6efd;
+    color: #0d6efd;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-manage:hover {
+    background-color: #0d6efd;
+    color: white;
+    text-decoration: none;
+}
+</style>
 
 {% endblock %}
