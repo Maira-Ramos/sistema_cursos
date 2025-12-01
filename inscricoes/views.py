@@ -1,14 +1,18 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, permission_required
 from .models import Inscricao
 from .forms import InscricaoForm
 
+# LISTAGEM → qualquer usuário logado
+@login_required
 def listar_inscricoes(request):
     inscricoes = Inscricao.objects.all()
     return render(request, "inscricoes/lista.html", {"inscricoes": inscricoes})
 
 
-# DETALHES
+# DETALHES → qualquer usuário logado
+@login_required
 def detalhes_inscricao(request, id):
     inscricao = get_object_or_404(Inscricao, id=id)
     total = Inscricao.objects.filter(aluno=inscricao.aluno).count()
@@ -19,7 +23,9 @@ def detalhes_inscricao(request, id):
     })
 
 
-# CRIAR
+# CRIAR → apenas professores
+@login_required
+@permission_required("inscricoes.add_inscricao", raise_exception=True)
 def criar_inscricao(request):
     if request.method == "POST":
         form = InscricaoForm(request.POST)
@@ -38,7 +44,11 @@ def criar_inscricao(request):
         form = InscricaoForm()
 
     return render(request, "inscricoes/form.html", {"form": form})
-# EXCLUIE
+
+
+# EXCLUIR → apenas professores
+@login_required
+@permission_required("inscricoes.delete_inscricao", raise_exception=True)
 def excluir_inscricao(request, id):
     inscricao = get_object_or_404(Inscricao, id=id)
 

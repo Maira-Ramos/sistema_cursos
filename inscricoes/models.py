@@ -1,4 +1,3 @@
-
 from django.db import models
 from alunos.models import Aluno
 from cursos.models import Curso
@@ -10,8 +9,11 @@ class Inscricao(models.Model):
 
     class Meta:
         unique_together = ('aluno', 'curso')  # evita inscrição duplicada
+        permissions = [
+            ("ver_inscricao", "Pode visualizar inscrições"),
+            ("criar_inscricao", "Pode criar inscrições"),
+            ("cancelar_inscricao", "Pode cancelar inscrições"),
+        ]
 
     def __str__(self):
         return f"{self.aluno.nome} → {self.curso.nome}"
-
-
