@@ -1,6 +1,4 @@
-
 from django.db import models
-#from cursos.models import Modulo
 
 class Aula(models.Model):
     curso = models.ForeignKey('cursos.Curso', on_delete=models.CASCADE, related_name='aulas')
@@ -10,3 +8,11 @@ class Aula(models.Model):
 
     def __str__(self):
         return self.titulo
+
+    class Meta:
+        permissions = [
+            ("ver_aula", "Pode visualizar aulas"),
+            ("criar_aula", "Pode criar aulas"),
+            ("editar_aula", "Pode editar aulas"),
+            ("deletar_aula", "Pode deletar aulas"),
+        ]

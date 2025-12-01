@@ -1,20 +1,25 @@
-# Create your views here.
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required, permission_required
 from .models import Aula
 from .forms import AulaForm
 
-# LISTAGEM
+# LISTAGEM → qualquer usuário logado
+@login_required
 def lista_aulas(request):
     aulas = Aula.objects.all()
     return render(request, 'aulas/lista.html', {'aulas': aulas})
 
 
-# DETALHES
+# DETALHES → qualquer usuário logado
+@login_required
 def detalhes_aula(request, id):
     aula = get_object_or_404(Aula, id=id)
     return render(request, 'aulas/detalhes.html', {'aula': aula})
 
-# CRIAÇÃO
+
+# CRIAÇÃO → apenas professores
+@login_required
+@permission_required("aulas.add_aula", raise_exception=True)
 def criar_aula(request):
     if request.method == 'POST':
         form = AulaForm(request.POST)
@@ -25,7 +30,10 @@ def criar_aula(request):
         form = AulaForm()
     return render(request, 'aulas/form.html', {'form': form})
 
-# EDIÇÃO
+
+# EDIÇÃO → apenas professores
+@login_required
+@permission_required("aulas.change_aula", raise_exception=True)
 def editar_aula(request, id):
     aula = get_object_or_404(Aula, id=id)
     if request.method == 'POST':
@@ -37,7 +45,10 @@ def editar_aula(request, id):
         form = AulaForm(instance=aula)
     return render(request, 'aulas/form.html', {'form': form})
 
-# EXCLUSÃO
+
+# EXCLUSÃO → apenas professores
+@login_required
+@permission_required("aulas.delete_aula", raise_exception=True)
 def excluir_aula(request, id):
     aula = get_object_or_404(Aula, id=id)
     if request.method == 'POST':
