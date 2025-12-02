@@ -9,8 +9,13 @@
         <p><strong>Carga horária:</strong> {{ curso.carga_horaria }} horas</p>
         <p><strong>Descrição:</strong> {{ curso.descricao }}</p>
 
+        {# Botões de Edição e Exclusão - Visíveis APENAS para Professores #}
+        {% if is_professor %}
         <a href="{% url 'editar_curso' curso.id %}" class="btn btn-warning">Editar</a>
         <a href="{% url 'excluir_curso' curso.id %}" class="btn btn-danger">Excluir</a>
+        {% endif %}
+        
+        {# Botão Voltar - Visível para TODOS #}
         <a href="{% url 'listar_cursos' %}" class="btn btn-secondary">Voltar</a>
     </div>
 </div>
