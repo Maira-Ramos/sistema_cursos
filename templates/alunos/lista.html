@@ -1,37 +1,65 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Lista de Alunos</h1>
-<hr>
 
-<a href="{% url 'alunos:cadastrar' %}" class="btn btn-primary">➕ Novo Aluno</a>
-<br><br>
+<div class="container mt-4">
 
-{% if alunos %}
-<table border="1" cellpadding="8">
-    <tr>
-        <th>Nome</th>
-        <th>Email</th>
-        <th>Nascimento</th>
-        <th>Ações</th>
-    </tr>
+    {# REMOVEMOS A CHECAGEM {% if is_professor %} e confiamos no DECORADOR PYTHON #}
+    
+    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-4">
+        <h1 class="fw-bolder text-primary">Gerenciar Alunos</h1>
+        
+        <a href="{% url 'alunos:cadastrar' %}" class="btn btn-success btn-lg shadow-sm">
+            ➕ Novo Aluno
+        </a>
+    </div>
 
-    {% for aluno in alunos %}
-    <tr>
-        <td>{{ aluno.nome }}</td>
-        <td>{{ aluno.email }}</td>
-        <td>{{ aluno.data_nascimento }}</td>
-        <td>
-            <a href="{% url 'alunos:detalhes' aluno.id %}">🔍 Detalhes</a> |
-            <a href="{% url 'alunos:editar' aluno.id %}">✏ Editar</a> |
-            <a href="{% url 'alunos:excluir' aluno.id %}">❌ Excluir</a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+    {% if alunos %}
+    
+    <div class="table-responsive bg-white rounded-3 shadow-sm">
+        <table class="table table-hover table-striped mb-0">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col" class="text-uppercase small">Nome</th>
+                    <th scope="col" class="text-uppercase small">Email</th>
+                    <th scope="col" class="text-uppercase small">Nascimento</th>
+                    <th scope="col" class="text-uppercase small text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for aluno in alunos %}
+                <tr>
+                    <td>
+                        <strong class="text-dark">{{ aluno.nome }}</strong>
+                    </td>
+                    <td>{{ aluno.email }}</td>
+                    <td>
+                        {{ aluno.data_nascimento|date:"d/m/Y" }}
+                    </td>
+                    <td class="text-center">
+                        <a href="{% url 'alunos:detalhes' aluno.id %}" class="btn btn-sm btn-outline-info me-2" title="Detalhes">
+                            🔎
+                        </a>
+                        <a href="{% url 'alunos:editar' aluno.id %}" class="btn btn-sm btn-outline-secondary me-2" title="Editar">
+                            📝
+                        </a>
+                        <a href="{% url 'alunos:excluir' aluno.id %}" class="btn btn-sm btn-outline-danger" title="Excluir">
+                            🗑️
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-{% else %}
-<p>Nenhum aluno cadastrado ainda.</p>
-{% endif %}
+    {% else %}
+    <div class="alert alert-info text-center mt-5" role="alert">
+        <h4 class="alert-heading">Nenhum Aluno Cadastrado!</h4>
+        <p>Utilize o botão **"➕ Novo Aluno"** para começar o cadastro no sistema.</p>
+    </div>
+    {% endif %}
+
+</div>
 
 {% endblock %}
