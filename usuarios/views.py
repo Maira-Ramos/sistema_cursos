@@ -115,5 +115,4 @@ def perfil_usuario(request):
         "is_professor": is_professor,
     }
 
-    # Você precisa criar o template 'perfil.html'
     return render(request, "perfil.html", context)
