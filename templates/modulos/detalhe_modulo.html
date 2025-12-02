@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="fw-bold mb-4">📚 Detalhes do Módulo</h2>
+
+<div class="card shadow-lg border-0">
+    <div class="card-body">
+
+        <h4 class="fw-bold text-primary">{{ modulo.nome }}</h4>
+
+        <p class="text-muted mt-2">
+            <strong>Curso:</strong> {{ modulo.curso.nome }}
+        </p>
+
+        <p class="text-muted">
+            <strong>Descrição:</strong><br>
+            {% if modulo.descricao %}
+                {{ modulo.descricao }}
+            {% else %}
+                <em>Sem descrição cadastrada.</em>
+            {% endif %}
+        </p>
+
+        <div class="mt-4 d-flex gap-2">
+            
+            {# Botão "Editar" - Visível APENAS para Professores #}
+            {% if is_professor %}
+            <a href="{% url 'editar_modulo' modulo.id %}" class="btn btn-warning px-4">Editar</a>
+            {% endif %}
+            
+            {# Botão "Voltar" - Visível para TODOS #}
+            <a href="{% url 'listar_modulos' %}" class="btn btn-secondary px-4">Voltar</a>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
