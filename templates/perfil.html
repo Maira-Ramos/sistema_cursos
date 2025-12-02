@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Meu Perfil - {{ usuario.username }}{% endblock %}
+
+{% block content %}
+
+<h2 class="fw-bold mb-4 text-primary">Meu Perfil</h2>
+
+<div class="card shadow-lg border-0">
+    <div class="card-body">
+        
+        <h4 class="fw-bold text-dark mb-3">Informações Básicas</h4>
+
+        <p>
+            <strong>Nome de Usuário:</strong> 
+            <span class="text-muted">{{ usuario.username }}</span>
+        </p>
+
+        <p>
+            <strong>Nome Completo:</strong> 
+            <span class="text-muted">{{ usuario.first_name }} {{ usuario.last_name }}</span>
+        </p>
+        
+        <p>
+            <strong>Email:</strong> 
+            <span class="text-muted">{{ usuario.email }}</span>
+        </p>
+
+        <h4 class="fw-bold text-dark mt-4 mb-3">Papel no Sistema</h4>
+        
+        {% if is_professor %}
+            <p class="mt-2 text-success fw-bold">Status: Professor (Gestão de Conteúdo)</p>
+        {% else %}
+            <p class="mt-2 text-info fw-bold">Status: Aluno (Ambiente de Estudos)</p>
+        {% endif %}
+        
+        <div class="mt-5 d-flex gap-2">
+            {# O link de edição foi removido para evitar o erro NoReverseMatch #}
+            <a href="{% url 'usuarios:home' %}" class="btn btn-primary px-4">Voltar para Home</a>
+        </div>
+        
+    </div>
+</div>
+
+{% endblock %}
