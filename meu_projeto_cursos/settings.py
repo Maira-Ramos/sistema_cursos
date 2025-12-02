@@ -16,9 +16,9 @@ INSTALLED_APPS = [
     'cursos',
     'modulos',
     'alunos',
-    'usuarios',
     'aulas' ,
-    'inscricoes' ,
+    'inscricoes',
+    'usuarios.apps.UsuariosConfig',
 ]
 
 MIDDLEWARE = [
@@ -74,3 +74,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_URL = 'usuarios:login'
+LOGIN_REDIRECT_URL = 'usuarios:home'
+LOGOUT_REDIRECT_URL = 'usuarios:login'
