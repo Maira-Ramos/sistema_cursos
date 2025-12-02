@@ -3,15 +3,21 @@
 {% block content %}
 <h1>Lista de Aulas</h1>
 
-
+{# Botão "Adicionar Aula" (Criar) - Visível APENAS para Professores #}
+{% if is_professor %}
 <a href="{% url 'aulas:criar' %}" class="btn btn-primary">Adicionar Aula</a>
+{% endif %}
 
 <table class="table mt-3">
     <tr>
         <th>Título</th>
         <th>Módulo</th>
         <th>Vídeo</th>
+        
+        {# Coluna "Ações" - Visível APENAS para Professores #}
+        {% if is_professor %}
         <th>Ações</th>
+        {% endif %}
     </tr>
 
     {% for aula in aulas %}
@@ -19,15 +25,20 @@
         <td>{{ aula.titulo }}</td>
         <td>{{ aula.curso.nome }}</td>
         <td>
+            {# O link para assistir (detalhes) é útil para todos (alunos e professores) #}
             {% if aula.link_video %}
                 <a href="{{ aula.link_video }}" target="_blank">Assistir</a>
             {% endif %}
         </td>
+        
+        {# Botões de Ações (Detalhes, Editar, Excluir) - Visíveis APENAS para Professores #}
+        {% if is_professor %}
         <td>
             <a href="{% url 'aulas:detalhes' aula.id %}" class="btn btn-info">Detalhes</a>
             <a href="{% url 'aulas:editar' aula.id %}" class="btn btn-warning">Editar</a>
             <a href="{% url 'aulas:excluir' aula.id %}" class="btn btn-danger">Excluir</a>
         </td>
+        {% endif %}
     </tr>
     {% endfor %}
 </table>
