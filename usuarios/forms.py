@@ -1,9 +1,10 @@
 from django import forms
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.models import User, Group
+from django.contrib.auth.forms import UserCreationForm
 from .models import PermissaoCustom
 
-# Form de criação de usuário com nome completo e código professor
+CODIGO_PROFESSOR = "PROF123"
+
 class CustomUserCreationForm(UserCreationForm):
     nome_completo = forms.CharField(
         max_length=150,
@@ -27,33 +28,23 @@ class CustomUserCreationForm(UserCreationForm):
             'is_active': forms.CheckboxInput(),
         }
 
+    def save(self, commit=True):
+        user = super().save(commit=False)
 
-# Form de alteração de usuário com nome completo
-class CustomUserChangeForm(UserChangeForm):
-    nome_completo = forms.CharField(
-        max_length=150,
-        required=True,
-        label="Nome completo",
-        widget=forms.TextInput(attrs={'class': 'form-control'})
-    )
+        # Salvar nome completo no first_name só para ter algo
+        user.first_name = self.cleaned_data['nome_completo']
 
-    class Meta:
-        model = User
-        fields = ['nome_completo', 'username', 'email', 'is_active']
-        widgets = {
-            'username': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'is_active': forms.CheckboxInput(),
-        }
+        if commit:
+            user.save()
 
+            codigo = self.cleaned_data.get("codigo_professor")
 
-# Form de permissões customizadas
-class PermissaoForm(forms.ModelForm):
-    class Meta:
-        model = PermissaoCustom
-        fields = ['pode_criar_curso', 'pode_editar_aluno', 'pode_deletar_postagem']
-        widgets = {
-            'pode_criar_curso': forms.CheckboxInput(),
-            'pode_editar_aluno': forms.CheckboxInput(),
-            'pode_deletar_postagem': forms.CheckboxInput(),
-        }
+            # Define o grupo correto
+            if codigo == CODIGO_PROFESSOR:
+                grupo = Group.objects.get(name="Professor")
+            else:
+                grupo = Group.objects.get(name="Aluno")
+
+            user.groups.add(grupo)
+
+        return user
