@@ -34,9 +34,17 @@
             <p class="mt-2 text-info fw-bold">Status: Aluno (Ambiente de Estudos)</p>
         {% endif %}
         
+        <!-- Botões lado a lado -->
         <div class="mt-5 d-flex gap-2">
-            {# O link de edição foi removido para evitar o erro NoReverseMatch #}
-            <a href="{% url 'usuarios:home' %}" class="btn btn-primary px-4">Voltar para Home</a>
+
+            <a href="{% url 'usuarios:home' %}" class="btn btn-primary px-4">
+                Voltar para Home
+            </a>
+
+            <a href="{% url 'usuarios:editar_perfil' %}" class="btn btn-warning px-4">
+                Editar Perfil
+            </a>
+
         </div>
         
     </div>
