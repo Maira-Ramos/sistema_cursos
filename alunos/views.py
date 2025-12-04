@@ -33,7 +33,9 @@ def listar_alunos(request):
 @login_required
 def detalhes_aluno(request, id):
     aluno = get_object_or_404(Aluno, id=id)
-    cursos_inscritos = Curso.objects.filter(inscricoes__aluno=aluno)
+    
+    # Corrigido: o relacionamento é 'inscricao', não 'inscricoes'
+    cursos_inscritos = Curso.objects.filter(inscricao__aluno=aluno)
 
     context = {
         'aluno': aluno,
@@ -41,7 +43,7 @@ def detalhes_aluno(request, id):
         'is_professor': usuario_e_professor(request.user)
     }
 
-    return render(request, 'alunos/detalhe.html', context)
+    return render(request, 'alunos/detalhes.html', context)
 
 
 # 3) Cadastro → APENAS professor

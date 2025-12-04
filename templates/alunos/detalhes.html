@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {# 1. Bloco de Título Padronizado com Borda e Ícone #}
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+        <h2 class="fw-bold mb-0">🧑‍🎓 Detalhes do Aluno</h2>
+    </div>
+
+    {# 2. Card de Detalhes do Aluno com Estilo Padronizado #}
+    <div class="card shadow-lg border-0 mt-3">
+        <div class="card-body">
+            
+            {# Título Principal (Nome do Aluno) com Estilo #}
+            <h3 class="card-title fw-bold mb-4 text-primary pb-3 border-bottom">
+                {{ aluno.nome }}
+            </h3>
+            
+            {# Informações Pessoais #}
+            <div class="row mb-4">
+                {# Campo: Email #}
+                <div class="col-md-6 mb-3">
+                    <strong class="text-secondary d-block mb-1">✉️ Email</strong>
+                    <p class="lead mb-0">{{ aluno.email }}</p>
+                </div>
+                
+                {# Campo: Telefone #}
+                <div class="col-md-6 mb-3">
+                    <strong class="text-secondary d-block mb-1">📞 Telefone</strong>
+                    <p class="lead mb-0">
+                        {% if aluno.telefone %}
+                            {{ aluno.telefone }}
+                        {% else %}
+                            <em class="text-muted">Não cadastrado</em>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            
+            <hr class="my-4">
+
+            {# Seção: Cursos Inscritos #}
+            <h4 class="fw-bold mb-3 text-dark">📚 Cursos Inscritos:</h4>
+            
+            {% if cursos_inscritos %}
+                <ul class="list-group list-group-flush mb-4">
+                    {% for curso in cursos_inscritos %}
+                        {# Use 'curso.nome' se o campo for 'nome' em vez de 'titulo' #}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ curso.nome }} 
+                            {# Opcional: Adicionar um link para o curso, se a URL existir #}
+                            {% comment %}
+                            {% if curso.id %}
+                            <a href="{% url 'detalhe_curso' curso.id %}" class="btn btn-sm btn-outline-info">Ver Curso</a>
+                            {% endif %}
+                            {% endcomment %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="alert alert-info" role="alert">
+                    O aluno não está inscrito em nenhum curso.
+                </div>
+            {% endif %}
+
+            {# --- Botões de Ação --- #}
+            <div class="mt-3 pt-3 border-top d-flex justify-content-start align-items-center">
+
+                {# Botões de Edição e Exclusão - Visíveis APENAS para Professores #}
+                {% if is_professor %}
+                <a href="{% url 'alunos:editar' aluno.id %}" class="btn btn-warning me-2 shadow-sm" title="Editar Aluno">
+                    ✏️ Editar
+                </a>
+                <a href="{% url 'alunos:excluir' aluno.id %}" class="btn btn-danger me-4 shadow-sm" title="Excluir Aluno">
+                    🗑️ Excluir
+                </a>
+                {% endif %}
+                
+                {# Botão Voltar para a Lista (Assumindo que exista 'alunos:listar') #}
+                <a href="{% url 'alunos:listar' %}" class="btn btn-secondary shadow-sm" title="Voltar para a Lista de Alunos">
+                    ↩️ Voltar
+                </a>
+            </div>
+            
+        </div>
+    </div>
+
+{% endblock %}
