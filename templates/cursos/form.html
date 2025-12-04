@@ -1,16 +1,62 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>{{ titulo }}</h2>
 
-<div class="card p-4 mt-3">
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
+    {# Título da Página Padronizado com Borda e Ícones #}
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+        <h2 class="fw-bold mb-0">
+            {% if 'editar' in request.resolver_match.url_name %}
+            ✍️ Editar Curso
+            {% else %}
+            ✨ Criar Novo Curso
+            {% endif %}
+        </h2>
+    </div>
 
-        <button class="btn btn-success" type="submit">Salvar</button>
-        <a href="{% url 'listar_cursos' %}" class="btn btn-secondary">Cancelar</a>
-    </form>
-</div>
+    {# Card do Formulário Padronizado #}
+    <div class="card shadow-lg border-0 mt-3 p-4">
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            {# --- Loop Manual para Estrutura Bootstrap --- #}
+            {% for field in form %}
+                <div class="mb-3">
+                    
+                    {# 💡 NOVO: Captura o rótulo, aplica a classe de cor e renderiza #}
+                    <label for="{{ field.id_for_label }}" class="form-label fw-bold text-primary">
+                        {{ field.label }}
+                    </label>
+                    
+                    {# O Campo Input/Textarea. As classes 'form-control' são aplicadas via forms.py #}
+                    {{ field }}
+                    
+                    {# Texto de Ajuda (Help Text) #}
+                    {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                    
+                    {# Mensagens de Erro do Campo #}
+                    {% for error in field.errors %}
+                    <div class="invalid-feedback d-block">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            {# --- Fim do Loop Manual --- #}
+
+            {# Botões de Ação Padronizados #}
+            <div class="mt-4 pt-3 border-top">
+                <button class="btn btn-success me-2 shadow-sm" type="submit" title="Salvar Alterações">
+                    <span class="me-1">💾</span> Salvar
+                </button>
+                <a href="{% url 'listar_cursos' %}" class="btn btn-secondary shadow-sm" title="Cancelar e Voltar">
+                    <span class="me-1">❌</span> Cancelar
+                </a>
+            </div>
+            
+        </form>
+    </div>
 
 {% endblock %}
