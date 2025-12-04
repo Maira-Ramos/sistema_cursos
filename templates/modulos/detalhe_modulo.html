@@ -2,38 +2,66 @@
 
 {% block content %}
 
-<h2 class="fw-bold mb-4">📚 Detalhes do Módulo</h2>
-
-<div class="card shadow-lg border-0">
-    <div class="card-body">
-
-        <h4 class="fw-bold text-primary">{{ modulo.nome }}</h4>
-
-        <p class="text-muted mt-2">
-            <strong>Curso:</strong> {{ modulo.curso.nome }}
-        </p>
-
-        <p class="text-muted">
-            <strong>Descrição:</strong><br>
-            {% if modulo.descricao %}
-                {{ modulo.descricao }}
-            {% else %}
-                <em>Sem descrição cadastrada.</em>
-            {% endif %}
-        </p>
-
-        <div class="mt-4 d-flex gap-2">
-            
-            {# Botão "Editar" - Visível APENAS para Professores #}
-            {% if is_professor %}
-            <a href="{% url 'editar_modulo' modulo.id %}" class="btn btn-warning px-4">Editar</a>
-            {% endif %}
-            
-            {# Botão "Voltar" - Visível para TODOS #}
-            <a href="{% url 'listar_modulos' %}" class="btn btn-secondary px-4">Voltar</a>
-        </div>
-
+    {# Título da Página com Iconografia e Estilo Padronizado #}
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+        {# O ícone foi ajustado para representar Módulo/Livro, e o texto corrigido #}
+        <h2 class="fw-bold mb-0">📖 Detalhes do Módulo</h2>
     </div>
-</div>
+
+    {# Card de Detalhes do Módulo com Estilo Padronizado #}
+    <div class="card shadow-lg border-0 mt-3">
+        <div class="card-body">
+            
+            {# Título Principal (Nome do Módulo) com Estilo #}
+            <h4 class="card-title fw-bold mb-3 text-primary">
+                {{ modulo.nome }}
+            </h4>
+            
+            {# Informações do Módulo com Ícones #}
+            <div class="mb-4">
+                
+                {# Campo: Curso ao qual pertence #}
+                <p class="card-text mb-2">
+                    {# Usando um ícone para indicar relacionamento/curso #}
+                    <strong><span class="text-secondary me-1">🔗</span> Curso Relacionado:</strong> 
+                    <span class="badge bg-secondary text-white">{{ modulo.curso.nome }}</span>
+                </p>
+                
+                {# Campo: Descrição do Módulo #}
+                <p class="card-text">
+                    {# Usando o ícone de descrição/documento #}
+                    <strong><span class="text-secondary me-1">📝</span> Descrição:</strong> 
+                    {# Garante que as quebras de linha sejam exibidas corretamente #}
+                    <div class="mt-2 p-3 bg-light rounded">
+                        {% if modulo.descricao %}
+                            {{ modulo.descricao | linebreaksbr }}
+                        {% else %}
+                            <em class="text-muted">Sem descrição cadastrada.</em>
+                        {% endif %}
+                    </div>
+                </p>
+            </div>
+
+            {# --- Botões de Ação --- #}
+            <div class="mt-3 pt-3 border-top d-flex justify-content-start align-items-center">
+
+                {# Botões de Edição e Exclusão - Visíveis APENAS para Professores #}
+                {% if is_professor %}
+                <a href="{% url 'editar_modulo' modulo.id %}" class="btn btn-warning me-2 shadow-sm" title="Editar Módulo">
+                    ✏️ Editar
+                </a>
+                <a href="{% url 'excluir_modulo' modulo.id %}" class="btn btn-danger me-4 shadow-sm" title="Excluir Módulo">
+                    🗑️ Excluir
+                </a>
+                {% endif %}
+                
+                {# Botão Voltar - Visível para TODOS #}
+                <a href="{% url 'listar_modulos' %}" class="btn btn-secondary shadow-sm" title="Voltar para a Lista de Módulos">
+                    ↩️ Voltar
+                </a>
+            </div>
+            
+        </div>
+    </div>
 
 {% endblock %}

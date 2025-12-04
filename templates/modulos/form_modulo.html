@@ -1,37 +1,64 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container py-5">
 
-    <h3 class="fw-bold mb-4">
-        {% if modulo %}
-            ✏ Editar Módulo
-        {% else %}
-            ➕ Criar Módulo
-        {% endif %}
-    </h3>
+    {# 1. Bloco de Título Padronizado com Borda e Ícones Corrigidos #}
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+        <h2 class="fw-bold mb-0">
+            {# A variável deve ser 'modulo' ou 'form' para verificar se é edição/criação #}
+            {% if form.instance.pk %}
+            ✍️ Editar Módulo
+            {% else %}
+            ✨ Criar Novo Módulo
+            {% endif %}
+        </h2>
+    </div>
 
-    <form method="POST">
-        {% csrf_token %}
+    {# 2. Card do Formulário com Estilo Padronizado #}
+    <div class="card shadow-lg border-0 mt-3 p-4">
+        
+        <form method="POST">
+            {% csrf_token %}
 
-        <div class="mb-3">
-            <label class="form-label">Curso</label>
-            {{ form.curso }}
-        </div>
+            {# --- Loop Manual para Estrutura Bootstrap e Rótulos Coloridos --- #}
+            {% for field in form %}
+                <div class="mb-3">
+                    
+                    {# Rótulo (Label) do Campo com cor primária e negrito #}
+                    <label for="{{ field.id_for_label }}" class="form-label fw-bold text-primary">
+                        {{ field.label }}
+                    </label>
+                    
+                    {# O Campo Input/Textarea (classes 'form-control' vêm do forms.py) #}
+                    {{ field }}
+                    
+                    {# Texto de Ajuda (Help Text) #}
+                    {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                    
+                    {# Mensagens de Erro do Campo #}
+                    {% for error in field.errors %}
+                    <div class="invalid-feedback d-block">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            {# --- Fim do Loop Manual --- #}
 
-        <div class="mb-3">
-            <label class="form-label">Nome</label>
-            {{ form.nome }}
-        </div>
+            {# 3. Botões de Ação Padronizados com Sombra e Ícones #}
+            <div class="mt-4 pt-3 border-top">
+                <button class="btn btn-success me-2 shadow-sm" type="submit" title="Salvar Alterações">
+                    <span class="me-1">💾</span> Salvar
+                </button>
+                {# O botão de cancelar deve manter a rota original 'listar_modulos' #}
+                <a href="{% url 'listar_modulos' %}" class="btn btn-secondary shadow-sm" title="Cancelar e Voltar">
+                    <span class="me-1">❌</span> Cancelar
+                </a>
+            </div>
+            
+        </form>
+    </div>
 
-        <div class="mb-3">
-            <label class="form-label">Descrição</label>
-            {{ form.descricao }}
-        </div>
-
-        <button class="btn btn-success">Salvar</button>
-        <a href="{% url 'listar_modulos' %}" class="btn btn-secondary">Cancelar</a>
-    </form>
-
-</div>
 {% endblock %}

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.models import Group  # <--- IMPORT ADICIONADO
+from django.contrib.auth.models import Group
 from .models import Modulo
 from .forms import ModuloForm
 
@@ -12,19 +12,16 @@ def listar_modulos(request):
 
     # LÓGICA DE VERIFICAÇÃO DE GRUPO ADICIONADA
     try:
-        # Tenta obter o grupo 'Professor'
         grupo_professor = Group.objects.get(name="Professor")
-        # Verifica se o usuário pertence a este grupo
         is_professor = grupo_professor in user.groups.all()
     except Group.DoesNotExist:
-        # Fallback seguro
         is_professor = False
 
     context = {
         "modulos": modulos,
-        "is_professor": is_professor,  # <--- VARIÁVEL ENVIADA AO TEMPLATE
+        "is_professor": is_professor,
     }
-    
+
     return render(request, "modulos/lista_modulos.html", context)
 
 
@@ -42,7 +39,7 @@ def criar_modulo(request):
     form = ModuloForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
         form.save()
-        return redirect("modulos:listar_modulos")
+        return redirect("listar_modulos")  # <<< CORRIGIDO
     return render(request, "modulos/form_modulo.html", {"form": form})
 
 
@@ -54,7 +51,7 @@ def editar_modulo(request, id):
     form = ModuloForm(request.POST or None, instance=modulo)
     if request.method == "POST" and form.is_valid():
         form.save()
-        return redirect("modulos:listar_modulos")
+        return redirect("listar_modulos")  # <<< CORRIGIDO
     return render(request, "modulos/form_modulo.html", {"form": form, "modulo": modulo})
 
 
@@ -66,6 +63,6 @@ def excluir_modulo(request, id):
 
     if request.method == "POST":
         modulo.delete()
-        return redirect("modulos:listar_modulos")
+        return redirect("listar_modulos")  # já estava correto
 
     return render(request, "modulos/confirmar_exclusao.html", {"modulo": modulo})
