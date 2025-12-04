@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, UserEditForm
 
 # Código secreto que identifica professores
 CODIGO_PROFESSOR = "PROF123"  # substitua pelo código real
@@ -116,3 +116,18 @@ def perfil_usuario(request):
     }
 
     return render(request, "perfil.html", context)
+
+@login_required
+def editar_perfil(request):
+    user = request.user  # usuário logado
+
+    if request.method == "POST":
+        form = UserEditForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Perfil atualizado com sucesso!")
+            return redirect('usuarios:perfil')  # volta para o perfil
+    else:
+        form = UserEditForm(instance=user)
+
+    return render(request, 'usuarios/editar_perfil.html', {"form": form})

@@ -48,3 +48,35 @@ class CustomUserCreationForm(UserCreationForm):
             user.groups.add(grupo)
 
         return user
+class UserEditForm(forms.ModelForm):
+    nome_completo = forms.CharField(
+        max_length=150,
+        required=True,
+        label="Nome completo",
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+
+    class Meta:
+        model = User
+        fields = ['nome_completo', 'username', 'email']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Preencher o campo 'nome_completo' com o que você salvou no first_name
+        if self.instance:
+            self.fields['nome_completo'].initial = self.instance.first_name
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+
+        # Salva o nome completo no first_name novamente
+        user.first_name = self.cleaned_data['nome_completo']
+
+        if commit:
+            user.save()
+        return user
