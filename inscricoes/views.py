@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
+from alunos.views import usuario_e_professor
 from .models import Inscricao
 from .forms import InscricaoForm
 
@@ -55,7 +56,7 @@ def editar_inscricao(request, id):
         return redirect('/')
 
     inscricao = get_object_or_404(Inscricao, id=id)
-    form = FormInscricao(request.POST or None, instance=inscricao)
+    form = InscricaoForm(request.POST or None, instance=inscricao)
 
     if form.is_valid():
         form.save()
@@ -64,6 +65,7 @@ def editar_inscricao(request, id):
     return render(request, 'inscricoes/form.html', {
         'form': form,
         'is_professor': True
+
     })
 
 

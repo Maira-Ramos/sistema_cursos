@@ -122,12 +122,16 @@
                        href="/alunos/">Alunos</a>
                 </li>
                 {% endif %}
-                
-                {# NOVO LINK PERFIL: Para o perfil Pessoal (VisÃ­vel para Alunos e Professores) #}
+
+                {# LINK DE GERENCIAMENTO DE inscricoes (Restrito a Professor) #}
+                {% if is_professor %}
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/perfil/' or 'perfil' in request.path %}active fw-bolder{% endif %}" 
-                       href="/perfil/">Perfil</a>
+                    <a class="nav-link {% if request.path == '/inscricoes/' or request.path == '/inscricoes' %}active fw-bolder{% endif %}" 
+                       href="/inscricoes/">Inscrições</a>
                 </li>
+                {% endif %}
+                
+               
 
                 {# LINK DE GERENCIAMENTO DE USUÁRIOS (Restrito a Professor) #}
                 {% if is_professor %}
@@ -139,6 +143,12 @@
                 <li class="nav-item">
                     <a class="nav-link {% if request.path == '/modulos/' or request.path == '/modulos' %}active fw-bolder{% endif %}" 
                        href="/modulos/">Módulos</a>
+                </li>
+
+                 {# NOVO LINK PERFIL: Para o perfil Pessoal (VisÃ­vel para Alunos e Professores) #}
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/perfil/' or 'perfil' in request.path %}active fw-bolder{% endif %}" 
+                       href="/perfil/">Perfil</a>
                 </li>
             </ul>
 
