@@ -1,30 +1,65 @@
 {% extends 'base.html' %}
+
 {% block content %}
 
-<h2 class="fw-bold mb-3">📄 Inscrições</h2>
-<a href="{% url 'inscricoes:form' %}" class="btn btn-primary mb-3">+ Nova Inscrição</a>
+<div class="container mt-4">
 
-<table class="table table-striped">
-    <tr>
-        <th>Aluno</th>
-        <th>Curso</th>
-        <th>Data</th>
-        <th>Ações</th>
-    </tr>
+    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-4">
+        <h1 class="fw-bolder text-primary">📝 Gerenciar Inscrições</h1>
+        
+        <a href="{% url 'inscricoes:form' %}" class="btn btn-success btn-lg shadow-sm">
+            ➕ Nova Inscrição
+        </a>
+    </div>
 
-    {% for i in inscricoes %}
-    <tr>
-        <td>{{ i.aluno }}</td>
-        <td>{{ i.curso }}</td>
-        <td>{{ i.data_inscricao }}</td>
-        <td>
-            <a href="{% url 'inscricoes:detalhes' i.id %}" class="btn btn-sm btn-info">Detalhes</a>
-            <a href="{% url 'inscricoes:excluir' i.id %}" class="btn btn-sm btn-danger">Excluir</a>
-        </td>
-    </tr>
-    {% empty %}
-        <tr><td colspan="4" class="text-center">Nenhuma inscrição encontrada.</td></tr>
-    {% endfor %}
-</table>
+    {% if inscricoes %}
+    
+    <div class="table-responsive bg-white rounded-3 shadow-sm">
+        <table class="table table-hover table-striped mb-0">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col" class="text-uppercase small">Aluno</th>
+                    <th scope="col" class="text-uppercase small">Curso</th>
+                    <th scope="col" class="text-uppercase small">Data</th>
+                    <th scope="col" class="text-uppercase small text-center">Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for i in inscricoes %}
+                <tr>
+                    <td><strong class="text-dark">{{ i.aluno }}</strong></td>
+                    <td>{{ i.curso }}</td>
+                    <td>{{ i.data_inscricao|date:"d/m/Y" }}</td>
+
+                    <td class="text-center">
+                        <a href="{% url 'inscricoes:detalhes' i.id %}" 
+                           class="btn btn-sm btn-outline-info me-2" title="Detalhes">
+                            🔎
+                        </a>
+                        <a href="{% url 'inscricoes:editar' i.id %}" class="btn btn-sm btn-outline-secondary me-2" title="Editar">
+                            📝
+                        </a>
+
+                        <a href="{% url 'inscricoes:excluir' i.id %}" 
+                           class="btn btn-sm btn-outline-danger" title="Excluir">
+                            🗑️
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+
+    {% else %}
+    <div class="alert alert-info text-center mt-5" role="alert">
+        <h4 class="alert-heading">Nenhuma Inscrição Encontrada!</h4>
+        <p>Use o botão <strong>“➕ Nova Inscrição”</strong> para cadastrar uma nova participação.</p>
+    </div>
+    {% endif %}
+
+</div>
 
 {% endblock %}
