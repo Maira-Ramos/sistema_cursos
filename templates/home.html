@@ -10,11 +10,13 @@
         <h4 class="text-secondary fw-bolder mb-3">(SIE)</h4>
         <p class="fs-5 text-muted mb-0">
             {% if is_professor %}
-                <strong>Olá</strong>, bem-vindo(a) ao seu <strong>painel de gestão</strong>! Utilize as ferramentas abaixo para administrar cursos, alunos e conteúdos.
+            <strong>Olá</strong>, bem-vindo(a) ao seu <strong>painel de gestão</strong>! Utilize as ferramentas abaixo
+            para administrar cursos, alunos e conteúdos.
             {% elif is_aluno %}
-                <strong>Olá</strong>, bem-vindo(a) ao seu <strong>ambiente de estudos</strong>! Acesse seus conteúdos, acompanhe o progresso e gerencie sua jornada de aprendizado.
+            <strong>Olá</strong>, bem-vindo(a) ao seu <strong>ambiente de estudos</strong>! Acesse seus conteúdos,
+            acompanhe o progresso e gerencie sua jornada de aprendizado.
             {% else %}
-                Bem-vindo(a) ao <strong>Sistema Integrado de Ensino</strong>! Faça login para acessar as opções.
+            Bem-vindo(a) ao <strong>Sistema Integrado de Ensino</strong>! Faça login para acessar as opções.
             {% endif %}
         </p>
     </div>
@@ -77,6 +79,19 @@
                 </div>
             </div>
         </div>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card border-0 shadow-lg h-100 card-hover">
+                <div class="card-body d-flex flex-column align-items-center text-center">
+                    <span class="fs-1 mb-2">📝</span>
+                    <h5 class="card-title fw-bold text-primary mb-2">Inscrições</h5>
+                    <p class="card-text text-muted small flex-grow-1">
+                        Gerencie matrículas dos alunos nos cursos.
+                    </p>
+                    <a href="/inscricoes/" class="btn btn-outline-primary btn-sm btn-manage mt-2">Gerenciar →</a>
+                </div>
+            </div>
+        </div>
+
 
         {% elif is_aluno %}
         <!-- Cards para aluno -->
@@ -118,6 +133,19 @@
                 </div>
             </div>
         </div>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card border-0 shadow-lg h-100 card-hover">
+                <div class="card-body d-flex flex-column align-items-center text-center">
+                    <span class="fs-1 mb-2">📝</span>
+                    <h5 class="card-title fw-bold text-primary mb-2">Inscrever-se</h5>
+                    <p class="card-text text-muted small flex-grow-1">
+                        Realize novas inscrições nos cursos disponíveis.
+                    </p>
+                    <a href="/inscricoes/form/" class="btn btn-outline-primary btn-sm btn-manage mt-2">Inscrever →</a>
+                </div>
+            </div>
+        </div>
+
 
         {% else %}
         <div class="col-12 text-center py-5">
@@ -130,29 +158,29 @@
 
 <!-- CSS -->
 <style>
-.card-hover {
-    transition: all 0.3s ease;
-}
+    .card-hover {
+        transition: all 0.3s ease;
+    }
 
-.card-hover:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.2);
-}
+    .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    }
 
-/* Botão Gerenciar/Acessar */
-.btn-manage {
-    border-radius: 0.5rem;
-    border: 2px solid #0d6efd;
-    color: #0d6efd;
-    font-weight: bold;
-    transition: all 0.3s ease;
-}
+    /* Botão Gerenciar/Acessar */
+    .btn-manage {
+        border-radius: 0.5rem;
+        border: 2px solid #0d6efd;
+        color: #0d6efd;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
 
-.btn-manage:hover {
-    background-color: #0d6efd;
-    color: white;
-    text-decoration: none;
-}
+    .btn-manage:hover {
+        background-color: #0d6efd;
+        color: white;
+        text-decoration: none;
+    }
 </style>
 
 {% endblock %}
