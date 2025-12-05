@@ -1,45 +1,90 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Lista de Aulas</h1>
 
-{# Botão "Adicionar Aula" (Criar) - Visível APENAS para Professores #}
-{% if is_professor %}
-<a href="{% url 'aulas:criar' %}" class="btn btn-primary">Adicionar Aula</a>
-{% endif %}
+<div class="container mt-4">
 
-<table class="table mt-3">
-    <tr>
-        <th>Título</th>
-        <th>Módulo</th>
-        <th>Vídeo</th>
-        
-        {# Coluna "Ações" - Visível APENAS para Professores #}
-        {% if is_professor %}
-        <th>Ações</th>
+    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-4">
+        <h1 class="fw-bolder text-primary">🎥 Gerenciar Aulas</h1>
+
+      {% if can_criar %}
+
+
+        <a href="{% url 'aulas:criar' %}" class="btn btn-primary mb-3">
+            
+            <span class="me-1">+</span> Nova Aula
+        </a>
         {% endif %}
-    </tr>
+    </div>
 
-    {% for aula in aulas %}
-    <tr>
-        <td>{{ aula.titulo }}</td>
-        <td>{{ aula.curso.nome }}</td>
-        <td>
-            {# O link para assistir (detalhes) é útil para todos (alunos e professores) #}
-            {% if aula.link_video %}
-                <a href="{{ aula.link_video }}" target="_blank">Assistir</a>
-            {% endif %}
-        </td>
-        
-        {# Botões de Ações (Detalhes, Editar, Excluir) - Visíveis APENAS para Professores #}
-        {% if is_professor %}
-        <td>
-            <a href="{% url 'aulas:detalhes' aula.id %}" class="btn btn-info">Detalhes</a>
-            <a href="{% url 'aulas:editar' aula.id %}" class="btn btn-warning">Editar</a>
-            <a href="{% url 'aulas:excluir' aula.id %}" class="btn btn-danger">Excluir</a>
-        </td>
-        {% endif %}
-    </tr>
-    {% endfor %}
-</table>
+    {% if aulas %}
+
+    <div class="table-responsive bg-white rounded-3 shadow-sm">
+        <table class="table table-hover table-striped mb-0">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col" class="text-uppercase small">Título</th>
+                    <th scope="col" class="text-uppercase small">Módulo</th>
+                    <th scope="col" class="text-uppercase small">Vídeo</th>
+
+                    {% if is_professor %}
+                    <th scope="col" class="text-uppercase small text-center">Ações</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for aula in aulas %}
+                
+                <tr>
+                    <td><strong class="text-dark">{{ aula.titulo }}</strong></td>
+                    <td>{{ aula.curso.nome }}</td>
+
+                    <td>
+                        {% if aula.link_video %}
+                        <a href="{{ aula.link_video }}" target="_blank" class="text-decoration-none">
+                            ▶️ Assistir
+                        </a>
+                        {% else %}
+                        —
+                        {% endif %}
+                    </td>
+
+                    {% if is_professor %}
+                    <td class="text-center">
+
+                        <a href="{% url 'aulas:detalhes' aula.id %}"
+                           class="btn btn-sm btn-outline-info me-2"
+                           title="Detalhes">
+                            🔎
+                        </a>
+
+                        <a href="{% url 'aulas:editar' aula.id %}"
+                           class="btn btn-sm btn-outline-secondary me-2"
+                           title="Editar">
+                            📝
+                        </a>
+
+                        <a href="{% url 'aulas:excluir' aula.id %}"
+                           class="btn btn-sm btn-outline-danger"
+                           title="Excluir">
+                            🗑️
+                        </a>
+
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% else %}
+    <div class="alert alert-info text-center mt-5" role="alert">
+        <h4 class="alert-heading">Nenhuma Aula Cadastrada!</h4>
+        <p>Use o botão <strong>"➕ Nova Aula"</strong> para começar a adicionar conteúdos ao sistema.</p>
+    </div>
+    {% endif %}
+
+</div>
+
 {% endblock %}

@@ -1,13 +1,104 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>{% if form.instance.id %}Editar Aula{% else %}Nova Aula{% endif %}</h1>
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
+    {# 1. Bloco de Título Padronizado com Borda e Ícones #}
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+        <h2 class="fw-bold mb-0">
+            {% if form.instance.pk %}
+            ✍️ Editar Aula
+            {% else %}
+            ➕ Nova Aula
+            {% endif %}
+        </h2>
+    </div>
 
-    <button type="submit" class="btn btn-success">Salvar</button>
-    <a href="{% url 'aulas:lista' %}" class="btn btn-secondary">Cancelar</a>
-</form>
+    {# 2. Card do Formulário com Estilo Padronizado #}
+    <div class="card shadow-lg border-0 mt-3 p-4">
+        
+        <form method="POST">
+            {% csrf_token %}
+
+            {# --- Loop Manual OBRIGATÓRIO para Estrutura Bootstrap --- #}
+            {% for field in form %}
+                <div class="mb-3">
+                    
+                    {# Rótulo (Label) do Campo com cor primária e negrito #}
+                    <label for="{{ field.id_for_label }}" class="form-label fw-bold text-primary">
+                        {{ field.label }}
+                    </label>
+                    
+                    {# O Campo Input/Textarea (classes 'form-control' vêm do forms.py) #}
+                    {{ field }}
+                    
+                    {# Texto de Ajuda (Help Text) #}
+                    {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                    
+                    {# Mensagens de Erro do Campo #}
+                    {% for error in field.errors %}
+                    <div class="invalid-feedback d-block">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            {# --- Fim do Loop Manual --- #}
+
+            {# 3. Botões de Ação Padronizados com Sombra e Ícones #}
+            <div class="mt-4 pt-3 border-top d-flex justify-content-end">
+                <button class="btn btn-success me-2 shadow-sm" type="submit" title="Salvar Alterações">
+                    <span class="me-1">💾</span> Salvar
+                </button>
+                <a href="{% url 'aulas:lista' %}" class="btn btn-secondary shadow-sm" title="Cancelar e Voltar">
+                    <span class="me-1">❌</span> Cancelar
+                </a>
+            </div>
+            
+        </form>
+    </div>
+
+    {# 4. Script para carregar módulos via AJAX quando um curso for selecionado #}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cursoSelect = document.getElementById('id_curso');
+            const moduloSelect = document.getElementById('id_modulo');
+            const loadModulosUrl = "{% url 'aulas:ajax_load_modulos' %}";
+           
+
+
+            function loadModulos(cursoId) {
+                moduloSelect.innerHTML = '<option value="">---------</option>';
+                if (cursoId) {
+                    fetch(`${loadModulosUrl}?curso_id=${cursoId}`)
+                        .then(response => {
+                            if (!response.ok) throw new Error('Erro na rede ou no servidor');
+                            return response.json();
+                        })
+                        .then(data => {
+                            data.forEach(modulo => {
+                                const option = document.createElement('option');
+                                option.value = modulo.id;
+                                option.textContent = modulo.nome;
+                                moduloSelect.appendChild(option);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Erro ao carregar módulos:', error);
+                            moduloSelect.innerHTML = '<option value="">Erro ao carregar</option>';
+                        });
+                }
+            }
+
+            cursoSelect.addEventListener('change', function() {
+                loadModulos(this.value);
+            });
+
+            if (cursoSelect.value) {
+                loadModulos(cursoSelect.value);
+            }
+        });
+    </script>
+
 {% endblock %}

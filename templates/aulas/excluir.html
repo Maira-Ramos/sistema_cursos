@@ -3,11 +3,25 @@
 {% block content %}
 <h2>Excluir Aula</h2>
 
+<h2 class="fw-bold text-danger mb-4">⚠ Confirmar Exclusão</h2>
+
+<div class="card shadow-lg border-0">
+    <div class="card-body">
+
+
+        <p class="text-muted">
+            Esta ação <strong>não poderá ser desfeita</strong>.
+        </p>
+
 <p>Tem certeza que deseja excluir <strong>{{ aula.titulo }}</strong>?</p>
 
-<form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Excluir</button>
-    <a href="{% url 'aulas:lista' %}" class="btn btn-secondary">Cancelar</a>
+<form method="POST" class="mt-4 d-flex gap-3">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger px-4">Sim, excluir</button>
+            <a href="{% url 'aulas:lista' %}" class="btn btn-secondary">Cancelar</a>
 </form>
+
+    </div>
+</div>
+
 {% endblock %}
