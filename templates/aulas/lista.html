@@ -7,11 +7,11 @@
     <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-4">
         <h1 class="fw-bolder text-primary">🎥 Gerenciar Aulas</h1>
 
-      {% if can_criar %}
+        {% if can_criar %}
 
 
         <a href="{% url 'aulas:criar' %}" class="btn btn-primary mb-3">
-            
+
             <span class="me-1">+</span> Nova Aula
         </a>
         {% endif %}
@@ -34,10 +34,10 @@
             </thead>
             <tbody>
                 {% for aula in aulas %}
-                
+
                 <tr>
                     <td><strong class="text-dark">{{ aula.titulo }}</strong></td>
-                    <td>{{ aula.curso.nome }}</td>
+                    <td>{{ aula.modulo.nome }}</td>
 
                     <td>
                         {% if aula.link_video %}
@@ -51,29 +51,22 @@
 
                     {% if is_professor %}
                     <td class="text-center">
-
-                        <a href="{% url 'aulas:detalhes' aula.id %}"
-                           class="btn btn-sm btn-outline-info me-2"
-                           title="Detalhes">
-                            🔎
-                        </a>
-
-                        <a href="{% url 'aulas:editar' aula.id %}"
-                           class="btn btn-sm btn-outline-secondary me-2"
-                           title="Editar">
-                            📝
-                        </a>
-
-                        <a href="{% url 'aulas:excluir' aula.id %}"
-                           class="btn btn-sm btn-outline-danger"
-                           title="Excluir">
-                            🗑️
-                        </a>
-
+                        <a href="{% url 'aulas:detalhes' aula.id %}" class="btn btn-sm btn-outline-info me-2"
+                            title="Detalhes">🔎</a>
+                        <a href="{% url 'aulas:editar' aula.id %}" class="btn btn-sm btn-outline-secondary me-2"
+                            title="Editar">📝</a>
+                        <a href="{% url 'aulas:excluir' aula.id %}" class="btn btn-sm btn-outline-danger"
+                            title="Excluir">🗑️</a>
                     </td>
                     {% endif %}
                 </tr>
-                {% endfor %}
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">Nenhuma aula encontrada.</td>
+                </tr>
+            </tbody>
+            {% endfor %}
+            </tr>
             </tbody>
         </table>
     </div>

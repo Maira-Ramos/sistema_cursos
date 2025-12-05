@@ -9,15 +9,18 @@ from django.http import JsonResponse
 
 # LISTAGEM → qualquer usuário logado
 
-@login_required
 def lista_aulas(request):
     aulas = Aula.objects.all()
+    is_professor = request.user.groups.filter(name='Professores').exists()
+    can_criar = request.user.has_perm('aulas.add_aula')
+
     context = {
         'aulas': aulas,
-        'can_criar': request.user.has_perm('aulas.add_aula'),
-        'is_professor': request.user.groups.filter(name='Professores').exists(),
+        'is_professor': is_professor,
+        'can_criar': can_criar,
     }
     return render(request, 'aulas/lista.html', context)
+
 
 
 
