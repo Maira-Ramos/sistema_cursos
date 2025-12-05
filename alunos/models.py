@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from cursos.models import Curso  
 
 class Aluno(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE) 
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     nome = models.CharField("Nome completo", max_length=200)
     email = models.EmailField("E-mail", unique=True)
     data_nascimento = models.DateField("Data de nascimento")
