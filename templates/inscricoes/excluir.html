@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="fw-bold text-danger mb-4">⚠ Confirmar Exclusão</h2>
+
+<div class="card shadow-lg border-0">
+    <div class="card-body">
+
+        <p class="fs-5">
+            Tem certeza que deseja excluir a inscrição do aluno:
+            <strong class="text-primary">"{{ inscricao.aluno.nome }}"</strong> 
+            no curso 
+            <strong class="text-primary">"{{ inscricao.curso.nome }}"</strong>?
+        </p>
+
+        <p class="text-muted">
+            Esta ação <strong>não poderá ser desfeita</strong>.
+        </p>
+
+        <form method="POST" class="mt-4 d-flex gap-3">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger px-4">Sim, excluir</button>
+            <a href="{% url 'inscricoes:listar' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -4,6 +4,9 @@ from django.contrib.auth.decorators import login_required, permission_required
 from .models import Inscricao
 from .forms import InscricaoForm
 
+
+
+
 # LISTAGEM → qualquer usuário logado
 @login_required
 def listar_inscricoes(request):
@@ -44,6 +47,24 @@ def criar_inscricao(request):
         form = InscricaoForm()
 
     return render(request, "inscricoes/form.html", {"form": form})
+
+# 4) Editar → APENAS professor
+@login_required
+def editar_inscricao(request, id):
+    if not usuario_e_professor(request.user):
+        return redirect('/')
+
+    inscricao = get_object_or_404(Inscricao, id=id)
+    form = FormInscricao(request.POST or None, instance=inscricao)
+
+    if form.is_valid():
+        form.save()
+        return redirect('inscricoes:listar')
+
+    return render(request, 'inscricoes/form.html', {
+        'form': form,
+        'is_professor': True
+    })
 
 
 # EXCLUIR → apenas professores
