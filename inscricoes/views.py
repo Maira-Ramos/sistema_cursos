@@ -29,25 +29,44 @@ def detalhes_inscricao(request, id):
 
 # CRIAR → apenas professores
 @login_required
-@permission_required("inscricoes.add_inscricao", raise_exception=True)
 def criar_inscricao(request):
+    # SE FOR ALUNO → restringe o formulário
+    if hasattr(request.user, "aluno"):
+        aluno_logado = request.user.aluno
+        aluno_selecionado = aluno_logado
+    else:
+        # Se for professor, pode escolher aluno livremente
+        aluno_selecionado = None
+
     if request.method == "POST":
         form = InscricaoForm(request.POST)
 
         if form.is_valid():
-            aluno = form.cleaned_data["aluno"]
             curso = form.cleaned_data["curso"]
+
+            # Para alunos → travar aluno no logado
+            if aluno_selecionado:
+                aluno = aluno_selecionado
+            else:
+                aluno = form.cleaned_data["aluno"]
+
+            # evitar duplicidade
             if Inscricao.objects.filter(aluno=aluno, curso=curso).exists():
                 messages.error(request, "Este aluno já está inscrito neste curso.")
                 return redirect("inscricoes:criar")
 
-            form.save()
+            inscricao = form.save(commit=False)
+            inscricao.aluno = aluno
+            inscricao.save()
+
             messages.success(request, "Inscrição criada com sucesso!")
             return redirect("inscricoes:listar")
+
     else:
         form = InscricaoForm()
 
-    return render(request, "inscricoes/form.html", {"form": form})
+    return render(request, "inscricoes/form.html", {"form": form, "aluno_selecionado": aluno_selecionado})
+
 
 # 4) Editar → APENAS professor
 @login_required
@@ -61,7 +80,7 @@ def editar_inscricao(request, id):
     if form.is_valid():
         form.save()
         return redirect('inscricoes:listar')
-
+  
     return render(request, 'inscricoes/form.html', {
         'form': form,
         'is_professor': True
