@@ -1,0 +1,171 @@
+[
+    {
+      "model": "cursos.curso",
+      "pk": 1,
+      "fields": {
+        "nome": "Redes de Computadores",
+        "descricao": "Fundamentos, protocolos, camadas OSI e redes modernas.",
+        "carga_horaria": 60
+      }
+    },
+    {
+      "model": "cursos.curso",
+      "pk": 2,
+      "fields": {
+        "nome": "Engenharia de Software",
+        "descricao": "Ciclos de desenvolvimento, UML, testes e práticas ágeis.",
+        "carga_horaria": 80
+      }
+    },
+    {
+      "model": "cursos.curso",
+      "pk": 3,
+      "fields": {
+        "nome": "Algoritmos e Programação Web",
+        "descricao": "Lógica, estruturas de decisão, laços e introdução ao desenvolvimento web.",
+        "carga_horaria": 70
+      }
+    },
+  
+  
+    {
+      "model": "modulos.modulo",
+      "pk": 1,
+      "fields": {
+        "curso": 1,
+        "nome": "Introdução às Redes",
+        "descricao": "Conceitos básicos de redes.",
+        "ordem": 1
+      }
+    },
+    {
+      "model": "modulos.modulo",
+      "pk": 2,
+      "fields": {
+        "curso": 1,
+        "nome": "Protocolos e Camadas",
+        "descricao": "Camada física a aplicação.",
+        "ordem": 2
+      }
+    },
+  
+    {
+      "model": "modulos.modulo",
+      "pk": 3,
+      "fields": {
+        "curso": 2,
+        "nome": "Introdução à Engenharia de Software",
+        "descricao": "História e fundamentos.",
+        "ordem": 1
+      }
+    },
+    {
+      "model": "modulos.modulo",
+      "pk": 4,
+      "fields": {
+        "curso": 2,
+        "nome": "Modelagem UML",
+        "descricao": "Diagramas estruturais e comportamentais.",
+        "ordem": 2
+      }
+    },
+  
+    {
+      "model": "modulos.modulo",
+      "pk": 5,
+      "fields": {
+        "curso": 3,
+        "nome": "Algoritmos Básicos",
+        "descricao": "Comandos básicos, variáveis e operadores.",
+        "ordem": 1
+      }
+    },
+    {
+      "model": "modulos.modulo",
+      "pk": 6,
+      "fields": {
+        "curso": 3,
+        "nome": "Introdução à Programação Web",
+        "descricao": "HTML, CSS, JS e lógica aplicada.",
+        "ordem": 2
+      }
+    },
+  
+  
+    {
+      "model": "aulas.aula",
+      "pk": 1,
+      "fields": {
+        "modulo": 1,
+        "titulo": "O que é uma Rede?",
+        "conteudo": "Introdução e conceitos gerais.",
+        "link_video": "https://www.youtube.com/watch?v=qiQR5rTSshw"
+      }
+    },
+    {
+      "model": "aulas.aula",
+      "pk": 2,
+      "fields": {
+        "modulo": 1,
+        "titulo": "Tipos de Redes",
+        "conteudo": "LAN, MAN, WAN e PAN.",
+        "link_video": "https://www.youtube.com/watch?v=H0j3XsP8MAY"
+      }
+    },
+  
+    {
+      "model": "aulas.aula",
+      "pk": 3,
+      "fields": {
+        "modulo": 2,
+        "titulo": "Camadas OSI",
+        "conteudo": "As 7 camadas do modelo OSI.",
+        "link_video": "https://www.youtube.com/watch?v=1N2rH7eZyXQ"
+      }
+    },
+  
+    {
+      "model": "aulas.aula",
+      "pk": 4,
+      "fields": {
+        "modulo": 3,
+        "titulo": "O que é Engenharia de Software?",
+        "conteudo": "Princípios e aplicações.",
+        "link_video": "https://www.youtube.com/watch?v=Qn8TCu4bYtc"
+      }
+    },
+  
+    {
+      "model": "aulas.aula",
+      "pk": 5,
+      "fields": {
+        "modulo": 4,
+        "titulo": "Diagramas UML",
+        "conteudo": "Visão geral dos diagramas UML.",
+        "link_video": "https://www.youtube.com/watch?v=UI6lqHOVHic"
+      }
+    },
+  
+    {
+      "model": "aulas.aula",
+      "pk": 6,
+      "fields": {
+        "modulo": 5,
+        "titulo": "Introdução à Lógica",
+        "conteudo": "Variáveis, operações e comandos básicos.",
+        "link_video": "https://www.youtube.com/watch?v=8PopR3x-VMY"
+      }
+    },
+  
+    {
+      "model": "aulas.aula",
+      "pk": 7,
+      "fields": {
+        "modulo": 6,
+        "titulo": "Introdução ao HTML",
+        "conteudo": "Tags básicas e estrutura padrão.",
+        "link_video": "https://www.youtube.com/watch?v=4dQtz1PpY9A"
+      }
+    }
+  ]
+  
