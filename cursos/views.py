@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
+from django.core.exceptions import PermissionDenied
 from .models import Curso
 from .forms import CursoForm
 
-# LISTAR
+# LISTAR CURSOS → qualquer usuário logado
 @login_required
 def listar_cursos(request):
     cursos = Curso.objects.all()
@@ -21,12 +22,12 @@ def listar_cursos(request):
         'is_professor': is_professor
     })
 
-# DETALHE
+
+# DETALHE CURSO → qualquer usuário logado
 @login_required
 def detalhe_curso(request, id):
     curso = get_object_or_404(Curso, id=id)
 
-    # Verifica se o usuário é professor (correção adicionada)
     try:
         grupo_professor = Group.objects.get(name="Professor")
         is_professor = grupo_professor in request.user.groups.all()
@@ -38,15 +39,22 @@ def detalhe_curso(request, id):
         'is_professor': is_professor
     })
 
-# CRIAR
+
+# CRIAR CURSO → apenas professores
 @login_required
-@permission_required("cursos.add_curso", raise_exception=True)
 def criar_curso(request):
+    try:
+        grupo_professor = Group.objects.get(name="Professor")
+        if grupo_professor not in request.user.groups.all():
+            raise PermissionDenied
+    except Group.DoesNotExist:
+        raise PermissionDenied
+
     if request.method == 'POST':
         form = CursoForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('listar_cursos') 
+            return redirect('listar_cursos')
     else:
         form = CursoForm()
 
@@ -55,12 +63,19 @@ def criar_curso(request):
         'titulo': 'Criar Curso'
     })
 
-# EDITAR
+
+# EDITAR CURSO → apenas professores
 @login_required
-@permission_required("cursos.change_curso", raise_exception=True)
 def editar_curso(request, id):
+    try:
+        grupo_professor = Group.objects.get(name="Professor")
+        if grupo_professor not in request.user.groups.all():
+            raise PermissionDenied
+    except Group.DoesNotExist:
+        raise PermissionDenied
+
     curso = get_object_or_404(Curso, id=id)
-    
+
     if request.method == 'POST':
         form = CursoForm(request.POST, instance=curso)
         if form.is_valid():
@@ -74,10 +89,17 @@ def editar_curso(request, id):
         'titulo': 'Editar Curso'
     })
 
-# EXCLUIR
+
+# EXCLUIR CURSO → apenas professores
 @login_required
-@permission_required("cursos.delete_curso", raise_exception=True)
 def excluir_curso(request, id):
+    try:
+        grupo_professor = Group.objects.get(name="Professor")
+        if grupo_professor not in request.user.groups.all():
+            raise PermissionDenied
+    except Group.DoesNotExist:
+        raise PermissionDenied
+
     curso = get_object_or_404(Curso, id=id)
 
     if request.method == 'POST':

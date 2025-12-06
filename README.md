@@ -21,7 +21,7 @@ Além disso, permite:
 * Controle de permissões para ações administrativas (ex.: criar, editar ou excluir conteúdos).
 
 Instruções de execução
-
+(para logar como professor insira o código: PROF123)
  Pré-requisitos
 
 * Python 3.10 ou superior
@@ -29,53 +29,60 @@ Instruções de execução
 * Banco de dados SQLite (padrão Django)
 
  Passo a passo
+ BAIXANDO O .zip DO SISTEMA NO GITHUB
 
-1. Clone o repositório:
+# 1. Entre na pasta do projeto
+cd ~/sistema_cursos-main
 
-```bash
+# 2. Crie e ative o ambiente virtual
+python3 -m venv venv
+source venv/bin/activate  # Linux/Mac
+# venv\Scripts\activate   # Windows
+
+# 3. Instale as dependências
+pip install -r requirements.txt
+
+# 4. Rode as migrações
+python manage.py migrate
+
+# 5. Carregue os dados iniciais
+python manage.py loaddata cursos/fixtures/dados_iniciais.json
+
+# 6. Execute o servidor
+python manage.py runserver
+
+# 7. Abra no navegador
+# http://127.0.0.1:8000/
+
+CLONANDO O REPOSITORIO:
+# 1. Clone o repositório
 git clone <link_do_repositorio>
 cd <nome_da_pasta>
-```
 
-2. Crie um ambiente virtual (opcional, mas recomendado):
-
-```bash
-python -m venv venv
+# 2. Crie e ative o ambiente virtual
+python3 -m venv venv
 source venv/bin/activate  # Linux/Mac
-venv\Scripts\activate     # Windows
-```
+# venv\Scripts\activate   # Windows
 
-3. Instale as dependências:
-
-```bash
+# 3. Instale as dependências
 pip install -r requirements.txt
-```
 
-4. Execute as migrações:
-
-```bash
+# 4. Rode as migrações
 python manage.py migrate
-```
 
-5. Crie um superusuário (administrador):
+# 5. Carregue os dados iniciais
+python manage.py loaddata cursos/fixtures/dados_iniciais.json
 
-```bash
+# 6. Crie um superusuário (opcional, para acessar o admin)
 python manage.py createsuperuser
-```
 
-6. Execute o servidor:
-
-```bash
+# 7. Execute o servidor
 python manage.py runserver
-```
 
-7. Acesse o sistema no navegador:
+# 8. Abra no navegador
+# http://127.0.0.1:8000/
+# Para acessar o admin: http://127.0.0.1:8000/admin/
 
-```
-http://127.0.0.1:8000/
-```
-
-> Obs.: Para acessar o admin do Django, vá em `http://127.0.0.1:8000/admin/` e utilize o superusuário criado.
 
 Integrantes do grupo:
 
