@@ -19,6 +19,8 @@ INSTALLED_APPS = [
     'aulas' ,
     'inscricoes',
     'usuarios.apps.UsuariosConfig',
+    'rest_framework',
+    'oauth2_provider',
 ]
 
 MIDDLEWARE = [
@@ -78,3 +80,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'usuarios:login'
 LOGIN_REDIRECT_URL = 'usuarios:home'
 LOGOUT_REDIRECT_URL = 'usuarios:login'
+
+REST_FRAMEWORK = {
+        'DEFAULT_AUTHENTION_CLASSES': (
+            'oauth2_provider.contrib.rest_framework.OAuthentication',
+        ),
+        'DEFAULT_PERMISSION_CLASSES': (
+            'rest_framework.permissions.IsAuthenticated',
+        ),
+}
