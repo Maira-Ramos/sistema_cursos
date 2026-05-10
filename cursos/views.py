@@ -5,6 +5,27 @@ from django.core.exceptions import PermissionDenied
 from .models import Curso
 from .forms import CursoForm
 
+# WEB II
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import CursoSerializer
+
+
+@api_view(['GET'])
+def lista_cursos_api(request):
+    cursos = Curso.objects.all()
+    serializer = CursoSerializer(cursos, many=True)
+    return Response(serializer.data)
+
+
+class CursoViewSet(viewsets.ModelViewSet):
+    queryset = Curso.objects.all()
+    serializer_class = CursoSerializer
+    permission_classes = [IsAuthenticated]
+
+
 # LISTAR CURSOS → qualquer usuário logado
 @login_required
 def listar_cursos(request):

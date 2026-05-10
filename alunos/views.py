@@ -6,6 +6,33 @@ from .forms import FormAluno
 from cursos.models import Curso
 
 
+
+
+#WEB II
+from rest_framework import viewsets
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+from .models import Aluno
+from .serializers import AlunoSerializer
+
+
+@api_view(['GET'])
+def lista_alunos_api(request):
+    alunos = Aluno.objects.all()
+    serializer = AlunoSerializer(alunos, many=True)
+    return Response(serializer.data)
+
+
+class AlunoViewSet(viewsets.ModelViewSet):
+    queryset = Aluno.objects.all()
+    serializer_class = AlunoSerializer
+
+
+
+
+
+
 def usuario_e_professor(user):
     """Retorna True se o usuário pertence ao grupo Professor."""
     try:

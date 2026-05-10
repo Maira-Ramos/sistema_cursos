@@ -5,6 +5,29 @@ from django.core.exceptions import PermissionDenied
 from .models import Modulo
 from .forms import ModuloForm
 
+#WEB II
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import viewsets
+from .models import Modulo
+from .serializers import ModuloSerializer
+
+@api_view(['GET'])
+def lista_modulos_api(request):
+    modulos = Modulo.objects.all()
+    serializer = ModuloSerializer(modulos, many=True)
+    return Response(serializer.data)
+
+class ModuloViewSet(viewsets.ModelViewSet): 
+    queryset = Modulo.objects.all()
+    serializer_class = ModuloSerializer
+
+
+
+
+
+
+
 # LISTAR MÓDULOS → qualquer usuário logado
 @login_required
 def listar_modulos(request):
