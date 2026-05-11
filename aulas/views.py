@@ -7,6 +7,30 @@ from modulos.models import Modulo
 from django.http import JsonResponse
 
 
+
+#WEB II
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .models import Aula
+from .serializers import AulaSerializer
+from rest_framework import viewsets
+
+
+@api_view(['GET'])
+def lista_aulas_api(request):
+    aulas = Aula.objects.all()
+    serializer = AulaSerializer(aulas, many=True)
+    return Response(serializer.data)
+
+class AulaViewSet(viewsets.ModelViewSet):
+    queryset = Aula.objects.all()
+    serializer_class = AulaSerializer
+
+
+
+
+
+
 # LISTAGEM → qualquer usuário logado
 
 def lista_aulas(request):

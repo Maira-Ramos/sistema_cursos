@@ -8,6 +8,28 @@ from .forms import InscricaoForm
 
 
 
+#WEB II
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import viewsets
+from .models import Inscricao
+from .serializers import InscricaoSerializer
+
+@api_view(['GET'])
+def lista_inscricoes_api(request):
+    inscricoes = Inscricao.objects.all()
+    serializer = InscricaoSerializer(inscricoes, many=True)
+    return Response(serializer.data)
+
+class InscricaoViewSet(viewsets.ModelViewSet):
+    queryset = Inscricao.objects.all()
+    serializer_class = InscricaoSerializer
+
+
+
+
+
+
 # LISTAGEM → qualquer usuário logado
 @login_required
 def listar_inscricoes(request):
