@@ -10,4 +10,5 @@ urlpatterns = [
     path('<int:id>/editar/', views.editar_aula, name='editar'),
     path('<int:id>/excluir/', views.excluir_aula, name='excluir'),
     path('ajax/load-modulos/', views.ajax_load_modulos, name='ajax_load_modulos'),
+    path('api/aulas/', views.lista_aulas_api, name='api_aulas'),
 ]

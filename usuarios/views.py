@@ -5,6 +5,26 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, UserEditForm
 
+
+
+#WEB II
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.contrib.auth.models import User
+from rest_framework import viewsets
+from .models import PermissaoCustom
+from .serializers import PermissaoCustomSerializer
+
+
+class PermissaoCustomViewSet(viewsets.ModelViewSet):
+    queryset = PermissaoCustom.objects.all()
+    serializer_class = PermissaoCustomSerializer
+
+
+
+
+
+
 # Código secreto que identifica professores
 CODIGO_PROFESSOR = "PROF123"  # substitua pelo código real
 
