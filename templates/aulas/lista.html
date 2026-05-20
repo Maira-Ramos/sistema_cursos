@@ -12,7 +12,7 @@
         <h1 class="fw-bolder text-primary">🎥 Aulas Disponíveis</h1>
         {% endif %}
 
-        {% if can_criar %}
+        {% if is_professor %}
         <a href="{% url 'aulas:criar' %}" class="btn btn-primary mb-3">
             <span class="me-1">+</span> Nova Aula
         </a>
