@@ -5,6 +5,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-trocar-por-uma-chave-segura'
 DEBUG = True
 ALLOWED_HOSTS = []
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5500",
+    "http://127.0.0.1:5500",
+    "http://0.0.0.0:5500",
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -21,6 +28,7 @@ INSTALLED_APPS = [
     'usuarios.apps.UsuariosConfig',
     'rest_framework',
     'oauth2_provider',
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -31,6 +39,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = 'meu_projeto_cursos.urls'
@@ -82,10 +91,10 @@ LOGIN_REDIRECT_URL = 'usuarios:home'
 LOGOUT_REDIRECT_URL = 'usuarios:login'
 
 REST_FRAMEWORK = {
-        'DEFAULT_AUTHENTION_CLASSES': (
-            'oauth2_provider.contrib.rest_framework.OAuthentication',
-        ),
-        'DEFAULT_PERMISSION_CLASSES': (
-            'rest_framework.permissions.IsAuthenticated',
-        ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
 }
