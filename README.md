@@ -83,6 +83,55 @@ python manage.py runserver
 # http://127.0.0.1:8000/
 # Para acessar o admin: http://127.0.0.1:8000/admin/
 
+## Cliente Web (HTML, CSS e JavaScript)
+
+O projeto também possui um cliente web desenvolvido em HTML, CSS e JavaScript para demonstrar o consumo seguro da API utilizando OAuth2.
+
+### Estrutura
+
+```text
+cliente_api/
+├── index.html
+├── script.js
+└── style.css
+```
+
+### Executando o Cliente
+
+1. Abra a pasta `cliente_api` no VS Code.
+2. Execute o arquivo `index.html` utilizando a extensão Live Server.
+3. O cliente será aberto em um endereço semelhante a:
+
+```text
+http://127.0.0.1:5500
+```
+
+### Fluxo de Utilização
+
+1. Inicie o servidor Django com:
+
+```bash
+python manage.py runserver
+```
+
+2. Abra o cliente web pelo Live Server.
+3. Informe usuário e senha cadastrados no sistema.
+4. Clique em **Entrar** para obter o token OAuth2.
+5. Clique em **Listar Cursos** para acessar a rota protegida da API.
+6. Os cursos cadastrados serão exibidos na tela.
+
+### Integração Cliente ↔ API
+
+O cliente realiza:
+
+* Autenticação OAuth2 através do endpoint `/o/token/`
+* Obtenção de Access Token
+* Armazenamento do token de acesso
+* Consumo da rota protegida `/api/cursos/`
+* Exibição dos dados retornados pela API
+
+Essa implementação atende ao requisito de desenvolvimento de um cliente em tecnologia diferente do backend Django, demonstrando autenticação e consumo seguro da API.
+
 
 Integrantes do grupo:
 
@@ -91,7 +140,11 @@ Integrantes do grupo:
 
   
 Link do vídeo de apresentação:
+https://youtu.be/buYC6qOFo4I
 
+
+Link da documentação:
+https://docs.google.com/document/d/1dLlqkFBt1LcsCkJTKut3Xc9MZopd0XrdyqxoTk0DWqc/edit?usp=sharing
 
 
 
